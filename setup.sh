@@ -31,9 +31,11 @@ else
 fi
 
 # Setup system configuration files
-echo "alias config='/usr/bin/git --git-dir=${HOME}/.home_config/ --work-tree=$HOME'" >> ${HOME}/.zshrc
-echo ".home_config" >> .gitignore
-git clone --bare git@bitbucket.org:aldrinpiri/home-config.git ${HOME}/.home_config
-
 alias config='/usr/bin/git --git-dir=$HOME/.home_config/ --work-tree=$HOME'
+echo ".home_config" >> .gitignore
+/bin/rm ${HOME}/.zshrc
+
+git clone --bare git@bitbucket.org:aldrinpiri/home-config.git ${HOME}/.home_config
+echo "alias config='/usr/bin/git --git-dir=${HOME}/.home_config/ --work-tree=$HOME'" >> ${HOME}/.zshrc
+
 config checkout
