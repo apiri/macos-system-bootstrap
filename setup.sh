@@ -29,3 +29,11 @@ if [ ! -d "${HOME}/.oh-my-zsh" ]; then
 else
   echo "Oh My Zsh already initialized..."
 fi
+
+# Setup system configuration files
+echo "alias config='/usr/bin/git --git-dir=${HOME}/.home_config/ --work-tree=$HOME'" >> ${HOME}/.zshrc
+echo ".home_config" >> .gitignore
+git clone --bare git@bitbucket.org:aldrinpiri/home-config.git ${HOME}/.home_config
+
+alias config='/usr/bin/git --git-dir=$HOME/.home_config/ --work-tree=$HOME'
+config checkout
