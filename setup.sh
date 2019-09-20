@@ -3,7 +3,10 @@
 # Make scrolling actually natural
 defaults write NSGlobalDomain com.apple.swipescrolldirection -bool false
 
-## VNC
+## Enable SSH
+sudo systemsetup -setremotelogin on
+
+## Enable Screensharing / VNC
 sudo defaults write /var/db/launchd.db/com.apple.launchd/overrides.plist com.apple.screensharing -dict Disabled -bool false
 sudo launchctl load -w /System/Library/LaunchDaemons/com.apple.screensharing.plist
 sudo defaults write /Library/Preferences/com.apple.RemoteManagement.plist VNCOnlyLocalConnections -bool no
