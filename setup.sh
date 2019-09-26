@@ -38,4 +38,5 @@ echo ".home_config" >> .gitignore
 git clone --bare git@bitbucket.org:aldrinpiri/home-config.git ${HOME}/.home_config
 echo "alias config='/usr/bin/git --git-dir=${HOME}/.home_config/ --work-tree=$HOME'" >> ${HOME}/.zshrc
 
-config checkout
+config checkout --force
+config config --local status.showUntrackedFiles no
