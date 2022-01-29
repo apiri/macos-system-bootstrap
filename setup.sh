@@ -1,4 +1,4 @@
-#!/bin/zsh -e
+#!/bin/sh -e
 
 # Inspiration from https://github.com/mathiasbynens/dotfiles/blob/master/.macos
 
@@ -49,14 +49,11 @@ echo "Setting up home config..."
 # Setup system configuration files
 if [ ! -d "${HOME}/.home_config" ]; then
 	git clone --bare git@github.com:apiri/home-config.git ${HOME}/.home_config
-	echo "alias config='/usr/bin/git --git-dir=${HOME}/.home_config/ --work-tree=$HOME'" >>${HOME}/.zshrc
 
-	echo ".home_config" >> ${HOME}/.gitignore
-
-	/usr/bin/git --git-dir=${HOME}/.home_config/ --work-tree=$HOME checkout --force
-	/usr/bin/git --git-dir=${HOME}/.home_config/ --work-tree=$HOME config --local status.showUntrackedFiles no
+    config_cmd="/usr/bin/git --git-dir=${HOME}/.home_config/ --work-tree=${HOME}"
+	${config_cmd} checkout --force
+	${config_cmd} config --local status.showUntrackedFiles no
 fi
 
-source ~/.zshrc
-
+# Install default applications using global bundle
 brew bundle install --global
