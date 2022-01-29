@@ -28,19 +28,18 @@ killall Finder
 
 # Setup homebrew if it is not installed.  This will also install XCode development tools
 if test ! $(which brew); then
-	echo "Installing homebrew..."
-	ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+  echo "Installing homebrew..."
+  ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 else
-	echo "Homebrew already installed..."
+  echo "Homebrew already installed..."
 fi
-
 
 # Apply configuration
 ## Oh My Zsh
 if [ ! -d "${HOME}/.oh-my-zsh" ]; then
-    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
+  sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 else
-	echo "Oh My Zsh already initialized..."
+  echo "Oh My Zsh already initialized..."
 fi
 
 brew install autojump
@@ -48,11 +47,11 @@ brew install autojump
 echo "Setting up home config..."
 # Setup system configuration files
 if [ ! -d "${HOME}/.home_config" ]; then
-	git clone --bare git@github.com:apiri/home-config.git ${HOME}/.home_config
+  git clone --bare git@github.com:apiri/home-config.git ${HOME}/.home_config
 
-    config_cmd="/usr/bin/git --git-dir=${HOME}/.home_config/ --work-tree=${HOME}"
-	${config_cmd} checkout --force
-	${config_cmd} config --local status.showUntrackedFiles no
+  config_cmd="/usr/bin/git --git-dir=${HOME}/.home_config/ --work-tree=${HOME}"
+  ${config_cmd} checkout --force
+  ${config_cmd} config --local status.showUntrackedFiles no
 fi
 
 # Install default applications using global bundle
