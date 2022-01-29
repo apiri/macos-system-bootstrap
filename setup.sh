@@ -1,4 +1,4 @@
-#!/bin/sh -e
+#!/bin/zsh -e
 
 # Inspiration from https://github.com/mathiasbynens/dotfiles/blob/master/.macos
 
@@ -28,27 +28,35 @@ killall Finder
 
 # Setup homebrew if it is not installed.  This will also install XCode development tools
 if test ! $(which brew); then
-  echo "Installing homebrew..."
-  ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+	echo "Installing homebrew..."
+	ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 else
-  echo "Homebrew already installed..."
+	echo "Homebrew already installed..."
 fi
+
 
 # Apply configuration
 ## Oh My Zsh
 if [ ! -d "${HOME}/.oh-my-zsh" ]; then
-	sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 else
-  echo "Oh My Zsh already initialized..."
+	echo "Oh My Zsh already initialized..."
 fi
 
+brew install autojump
+
+echo "Setting up home config..."
 # Setup system configuration files
-alias config='/usr/bin/git --git-dir=$HOME/.home_config/ --work-tree=$HOME'
-echo ".home_config" >> .gitignore
-/bin/rm ${HOME}/.zshrc
+if [ ! -d "${HOME}/.home_config" ]; then
+	git clone --bare git@github.com:apiri/home-config.git ${HOME}/.home_config
+	echo "alias config='/usr/bin/git --git-dir=${HOME}/.home_config/ --work-tree=$HOME'" >>${HOME}/.zshrc
 
-git clone --bare git@bitbucket.org:aldrinpiri/home-config.git ${HOME}/.home_config
-echo "alias config='/usr/bin/git --git-dir=${HOME}/.home_config/ --work-tree=$HOME'" >> ${HOME}/.zshrc
+	echo ".home_config" >> ${HOME}/.gitignore
 
-config checkout --force
-config config --local status.showUntrackedFiles no
+	/usr/bin/git --git-dir=${HOME}/.home_config/ --work-tree=$HOME checkout --force
+	/usr/bin/git --git-dir=${HOME}/.home_config/ --work-tree=$HOME config --local status.showUntrackedFiles no
+fi
+
+source ~/.zshrc
+
+brew bundle install --global
